@@ -48,6 +48,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         imageView.contentMode = UIViewContentMode.scaleToFill
         
         mapView.addSubview(imageView)
+        mapView.isHidden = true
         
         guideImageView.image = UIImage.init(named: "screen1")
         guideImageView.contentMode = UIViewContentMode.scaleToFill
@@ -180,12 +181,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let imageName = referenceImage.name ?? ""
             print("fuck ", imageName)
             self.statusViewController.cancelAllScheduledMessages()
-            if imageName == "1" {
-                self.statusViewController.showMessage("Detected image")
-            }
-            else {
-                self.statusViewController.showMessage("fuck")
-            }
+            self.statusViewController.showMessage("Detected image")
         }
         //self.resetTracking()
     }

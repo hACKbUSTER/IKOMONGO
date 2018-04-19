@@ -143,10 +143,10 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon1" translatesAutoresizingMaskIntoConstraints="NO" id="093-Mt-oON">
-                                <rect key="frame" x="333" y="516" width="22" height="51"/>
+                                <rect key="frame" x="310" y="467" width="45" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="ar3-Gd-oxE"/>
-                                    <constraint firstAttribute="width" constant="22" id="gEo-Rd-5ax"/>
+                                    <constraint firstAttribute="height" constant="100" id="ar3-Gd-oxE"/>
+                                    <constraint firstAttribute="width" constant="45" id="gEo-Rd-5ax"/>
                                 </constraints>
                             </imageView>
                         </subviews>
