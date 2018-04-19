@@ -17,6 +17,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var mapView: UIView!
     @IBOutlet weak var blurView: UIVisualEffectView!
     
+    @IBOutlet weak var guideImageView: UIImageView!
+    
+    var isReadyForAR = false
+    
     /// The view controller that displays the status and "restart experience" UI.
     lazy var statusViewController: StatusViewController = {
         return childViewControllers.lazy.flatMap({ $0 as? StatusViewController }).first!
@@ -45,6 +49,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         mapView.addSubview(imageView)
         
+        guideImageView.image = UIImage.init(named: "screen1")
+        guideImageView.contentMode = UIViewContentMode.scaleToFill
+
         sceneView.delegate = self
         sceneView.session.delegate = self
         sceneView.rendersContinuously = true
@@ -63,7 +70,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 		UIApplication.shared.isIdleTimerDisabled = true
 
         // Start the AR experience
-        resetTracking()
+//        resetTracking()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -105,12 +112,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             var imageName = referenceImage.name ?? ""
             var planeWidth = referenceImage.physicalSize.width
-            var planeHeight = referenceImage.physicalSize.height/2
+            var planeHeight = referenceImage.physicalSize.height
             var offsetZ = -referenceImage.physicalSize.width
             if imageName == "1" {
                 imageName = "arrow"
                 planeWidth = referenceImage.physicalSize.width * 2
                 planeHeight = referenceImage.physicalSize.height * 2
+                offsetZ = 0
+            } else if imageName == "card10" {
+                imageName = "card1"
+                planeHeight = planeWidth/2
+                offsetZ = 0
+            } else if imageName == "space10" {
+                imageName = "card2"
+                planeHeight = planeWidth/1.5
                 offsetZ = 0
             } else {
                 imageName = "test"
@@ -206,12 +221,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             sceneView.hitTest(location, options: hitTestOptions)
         if hitResults.first != nil {
             print("fuck")
-            let url = NSURL(string: "https://www.ikea.com/hk/zh/catalog/products/60162301/")
+            let url = NSURL(string: "https://www.ikea.cn/cn/en/catalog/products/80342486/")
             let safariVC = SFSafariViewController(url: url! as URL)
             self.show(safariVC, sender: nil)
             hitResults.first?.node.removeFromParentNode()
             return
             //https://www.ikea.com/hk/zh/catalog/products/60162301/
+        } else {
+            if guideImageView.isHidden == false && isReadyForAR == false {
+                guideImageView.image = UIImage.init(named: "screen2")
+                isReadyForAR = true
+                return
+            } else if guideImageView.isHidden == false && isReadyForAR == true {
+                guideImageView.isHidden = true
+                self.resetTracking()
+                return
+            }
+            
         }
     }
     
